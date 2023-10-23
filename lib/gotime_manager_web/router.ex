@@ -23,24 +23,12 @@ defmodule GotimeManagerWeb.Router do
   # Other scopes may use custom stacks.
   scope "/api", GotimeManagerWeb do
     pipe_through :api
-    scope "/users" do
-      get "/", UserController, :index
-      get "/:userID", UserController, :show
-      post "/", UserController, :create
-      put "/:userID", UserController, :update
-      delete "/:userID", UserController, :delete
-    end
-    scope "/workingtimes" do
-      get "/:userID", WorkingTimeController, :index
-      get "/:userID/:id", WorkingTimeController, :show
-      post "/:userID", WorkingTimeController, :create
-      put "/:id", WorkingTimeController, :update
-      delete "/:id", WorkingTimeController, :delete
-    end
-    scope "/clocks", ClockController do
-      get "/:userID", ClockController, :index
-      post "/:userID", ClockController, :create
-    end
+    resources "/users", UserController, param: "userID", except: [:new, :edit]
+
+    resources "/workingtimes/:userId", WorkingTimeController, only: [:index, :create, :show]
+    resources "/workingtimes", WorkingTimeController, only: [:delete, :update]
+
+    resources "/clocks/:userId", ClockController, only: [:index, :create]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
