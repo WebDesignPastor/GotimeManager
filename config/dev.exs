@@ -3,7 +3,7 @@ import Config
 # Configure your database
 config :gotime_manager, GotimeManager.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "test",
   hostname: "localhost",
   database: "gotime_manager_dev",
   stacktrace: true,
