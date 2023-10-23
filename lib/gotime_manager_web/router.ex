@@ -21,9 +21,16 @@ defmodule GotimeManagerWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", GotimeManagerWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", GotimeManagerWeb do
+    pipe_through :api
+    resources "/users", UserController, except: [:new, :edit]
+    resources "/working_times", WorkingTimeController, only: [:update, :delete] do
+      resources"/users", UserController, only: [:index, :show]
+    end
+    resources "/clocks", ClockController do
+      resources"/users", UserController, only: [:show, :create]
+    end
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:gotime_manager, :dev_routes) do
