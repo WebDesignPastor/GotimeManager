@@ -38,7 +38,7 @@ defmodule GotimeManagerWeb.Router do
       delete "/:id", WorkingTimeController, :delete
     end
     scope "/clocks", ClockController do
-      get "/:userID", ClockController, :show
+      get "/:userID", ClockController, :index
       post "/:userID", ClockController, :create
     end
   end
