@@ -23,12 +23,23 @@ defmodule GotimeManagerWeb.Router do
   # Other scopes may use custom stacks.
   scope "/api", GotimeManagerWeb do
     pipe_through :api
-    resources "/users", UserController, except: [:new, :edit]
-    resources "/working_times", WorkingTimeController, only: [:update, :delete] do
-      resources"/users", UserController, only: [:index, :show]
+    scope "/users" do
+      get "/", UserController, :index
+      get "/:userID", UserController, :show
+      post "/", UserController, :create
+      put "/:userID", UserController, :update
+      delete "/:userID", UserController, :delete
     end
-    resources "/clocks", ClockController do
-      resources"/users", UserController, only: [:show, :create]
+    scope "/workingtimes" do
+      get "/:userID", WorkingTimeController, :index
+      get "/:userID/:id", WorkingTimeController, :show
+      post "/:userID", WorkingTimeController, :create
+      put "/:id", WorkingTimeController, :update
+      delete "/:id", WorkingTimeController, :delete
+    end
+    scope "/clocks", ClockController do
+      get "/:userID", ClockController, :show
+      post "/:userID", ClockController, :create
     end
   end
 
